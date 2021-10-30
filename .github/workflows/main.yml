@@ -28,6 +28,9 @@ jobs:
         working-directory: ./experimental/user-project/user-example
         run: |
           mvn --batch-mode --update-snapshots package -P packageAsDocker
+      - name: "where is the image"
+        run: |
+          docker images
       - name: "Package and Push with Docker"
         run: |
           docker tag solentdevops/user-example:0.1-SNAPSHOT ghcr.io/${{ github.repository_owner }}/test:latest
