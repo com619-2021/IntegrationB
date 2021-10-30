@@ -4,7 +4,7 @@ name: Test on Master Push
 on:
   # Triggers the workflow on push but only for the master branch
   push:
-    branches: [ master ]
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
