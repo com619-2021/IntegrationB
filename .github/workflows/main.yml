@@ -12,6 +12,12 @@ jobs:
       # checkout the repo
       - name: 'Checkout GitHub Action'
         uses: actions/checkout@v2
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
       - name: Set up JDK 11
         uses: actions/setup-java@v2
         with:
@@ -37,5 +43,3 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ghcr.io/${{ github.repository_owner }}/user:latest
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache
