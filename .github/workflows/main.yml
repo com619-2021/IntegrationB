@@ -39,6 +39,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           file: ./experimental/user-project/user-example/docker/Dockerfile
+          context: ./experimental/user-project/user-example/docker/
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ghcr.io/${{ github.repository_owner }}/user:latest
