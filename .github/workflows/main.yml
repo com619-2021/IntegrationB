@@ -46,5 +46,6 @@ jobs:
           key: ${{ secrets.AZURE_VM_KEY }}
           port: 22
           script: |
+            docker stop $(docker ps -a -q)
             USER_CONTAINER=ghcr.io/${{ github.repository_owner }}/test:latest docker-compose -f /tmp/docker-compose.yml up -d
           
