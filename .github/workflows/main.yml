@@ -30,4 +30,21 @@ jobs:
           mvn --batch-mode --update-snapshots package -P packageAsDocker
           docker build ./docker -f ./docker/Dockerfile -t ghcr.io/${{ github.repository_owner }}/test:latest
           docker push ghcr.io/${{ github.repository_owner }}/test:latest
+      - name: "Upload docker-compose yaml to VM"
+        uses: wlixcc/SFTP-Deploy-Action@v1.0
+        with:
+          username: '${{ secrets.AZURE_VM_USER }}'
+          server: '${{ secrets.AZURE_VM_HOST }}'
+          ssh_private_key: '${{ secrets.AZURE_VM_KEY }}'
+          local_path: './experimental/user-project/user-example/docker/docker-compose.yml'
+          remote_path: '/tmp/docker-compose.yml'
+      - name: "Run Compose on Azure"
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.AZURE_VM_HOST }}
+          username: ${{ secrets.AZURE_VM_USER }}
+          key: ${{ secrets.AZURE_VM_KEY }}
+          port: 22
+          script: |
+            USER_CONTAINER=ghcr.io/${{ github.repository_owner }}/test:latest docker-compose -d -f /tmp/docker-compose.yml up 
           
