@@ -1,0 +1,18 @@
+events {
+    worker_connections 1024;
+}
+http {
+    server {
+        server_name solent-devops2.uksouth.cloudapp.azure.com;
+        listen 80;
+        listen 443 ssl;
+        ssl_certificate /etc/letsencrypt/live/solent-devops2.uksouth.cloudapp.azure.com/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/solent-devops2.uksouth.cloudapp.azure.com/privkey.pem;
+        location /user {
+            proxy_pass http://user:8080/;
+        }
+        location /test {
+            proxy_pass http://test:8080/;
+        }
+    }
+}
