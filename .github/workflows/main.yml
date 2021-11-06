@@ -53,7 +53,7 @@ jobs:
           port: 22
           script: |
             cd /etc/devops/nginx-gen/
-            python3 main.py --compose /etc/devops/docker-compose/docker-compose.yml --nginx /etc/devops/nginx/template-nginx.conf --output /etc/devops/nginx/nginx.conf --deny nginx
+            python3 main.py --compose /etc/devops/docker-compose/docker-compose.yml --nginx /etc/devops/nginx/template-nginx.conf --out /etc/devops/nginx/nginx.conf --deny nginx
       - name: "Run Compose on Azure"
         uses: appleboy/ssh-action@master
         with:
