@@ -1,0 +1,17 @@
+{
+    "directive":"location",
+    "line":0,
+    "args":[
+        "/test"
+    ],
+    "block":[
+        {
+            "directive":"proxy_pass",
+            "line":0,
+            "args":[
+                "http://test:8080/"
+            ]
+        }
+    ]
+
+}
