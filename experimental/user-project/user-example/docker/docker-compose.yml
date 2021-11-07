@@ -9,7 +9,7 @@ services:
     ports:
       - 80:80
       - 443:443
-  user-example:
+  user:
     image: ${USER_CONTAINER}
     expose:
       - "8080"
