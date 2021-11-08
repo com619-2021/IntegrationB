@@ -36,32 +36,10 @@ jobs:
           mvn --batch-mode --update-snapshots package -P packageAsDocker
           docker build ./docker -f ./docker/Dockerfile -t ghcr.io/${{ github.repository_owner }}/test:${{ env.RELEASE_VERSION }}
           docker push ghcr.io/${{ github.repository_owner }}/test:${{ env.RELEASE_VERSION }}
-      - name: "Upload docker-compose yaml to VM"
-        uses: wlixcc/SFTP-Deploy-Action@v1.0
+      - name: Send Deploy Notification to Integration Repo
+        uses: peter-evans/repository-dispatch@v1
         with:
-          username: '${{ secrets.AZURE_VM_USER }}'
-          server: '${{ secrets.AZURE_VM_HOST }}'
-          ssh_private_key: '${{ secrets.AZURE_VM_KEY }}'
-          local_path: './experimental/user-project/user-example/docker/docker-compose.yml'
-          remote_path: '/etc/devops/docker-compose/docker-compose.yml'
-      - name: "Update nginx.conf"
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.AZURE_VM_HOST }}
-          username: ${{ secrets.AZURE_VM_USER }}
-          key: ${{ secrets.AZURE_VM_KEY }}
-          port: 22
-          script: |
-            cd /etc/devops/nginx-gen/
-            python3 main.py --compose /etc/devops/docker-compose/docker-compose.yml --nginx /etc/devops/nginx/template-nginx.conf --out /etc/devops/nginx/nginx.conf --deny nginx
-      - name: "Run Compose on Azure"
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.AZURE_VM_HOST }}
-          username: ${{ secrets.AZURE_VM_USER }}
-          key: ${{ secrets.AZURE_VM_KEY }}
-          port: 22
-          script: |            
-            docker stop $(docker ps -a -q)
-            USER_CONTAINER=ghcr.io/${{ github.repository_owner }}/test:${{ env.RELEASE_VERSION }} docker-compose -f /etc/devops/docker-compose/docker-compose.yml up -d
-          
+          token: ${{ secrets.REPO_TOKEN }}
+          repository:  com619-2021/IntegrationB 
+          event-type: deploy
+          client-payload: '{"image": "ghcr.io/${{ github.repository_owner }}/test:${{ env.RELEASE_VERSION }}"}'
