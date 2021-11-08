@@ -9,6 +9,8 @@ jobs:
       runs-on: ubuntu-latest
       steps:
       # checkout the repo
+      - name: "Checkout"
+        uses: actions/checkout@v2.4.0
       - name: 'Show dispatch payload'
         run: 'echo "payload: ${{ toJson(github.event.client_payload) }}"'
       - name: "Upload docker-compose yaml to VM"
