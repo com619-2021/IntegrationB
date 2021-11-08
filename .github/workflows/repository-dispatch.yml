@@ -1,0 +1,13 @@
+name: Test release tag
+on: repository_dispatch
+    
+jobs:
+    build-and-deploy:
+      name: Setup, Build and Publish
+      runs-on: ubuntu-latest
+      steps:
+      # checkout the repo
+      - name: 'Test'
+      - uses: actions/checkout@v1
+      - run: 'echo "field: ${{ github.event.client_payload.foo }}"'
+      - run: 'echo "payload: ${{ toJson(github.event.client_payload) }}"'
