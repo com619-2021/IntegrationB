@@ -8,6 +8,4 @@ jobs:
       steps:
       # checkout the repo
       - name: 'Test'
-      - uses: actions/checkout@v1
-      - run: 'echo "field: ${{ github.event.client_payload.foo }}"'
-      - run: 'echo "payload: ${{ toJson(github.event.client_payload) }}"'
+        run: 'echo "payload: ${{ toJson(github.event.client_payload) }}"'
