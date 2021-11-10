@@ -19,7 +19,7 @@ jobs:
           username: '${{ secrets.AZURE_VM_USER }}'
           server: '${{ secrets.AZURE_VM_HOST }}'
           ssh_private_key: '${{ secrets.AZURE_VM_KEY }}'
-          local_path: './experimental/user-project/user-example/docker/docker-compose.yml'
+          local_path: './docker-compose/docker-compose.yml'
           remote_path: '/etc/devops/docker-compose/docker-compose.yml'
       #- name: "Update nginx.conf"
       #  uses: appleboy/ssh-action@master
