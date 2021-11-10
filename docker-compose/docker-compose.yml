@@ -1,0 +1,11 @@
+version: "3.9"
+services:
+  harbour:
+    image: ${HARBOUR_CONTAINER}
+    ports:
+      - 8080:8080
+    volumes:
+      - user-example-logs:/usr/local/tomcat/logs
+
+volumes:
+  user-example-logs: {}
