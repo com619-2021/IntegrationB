@@ -5,6 +5,8 @@ on:
         
 env:
   PERMITTED_REPOS: '["HARBOUR_IMAGE", "SHIPPING_IMAGE", "PORT_IMAGE", "STEVEDORE_IMAGE"]'
+  IMAGE_OWNER: "default"
+  IMAGE_TAG: "default"
     
 jobs:
     pull-and-deploy:
