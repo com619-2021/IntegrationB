@@ -1,11 +1,18 @@
 version: "3.9"
 services:
   harbour:
-    image: ${HARBOUR_CONTAINER}
+    image: ${HARBOUR_IMAGE}
     ports:
       - 8080:8080
-    volumes:
-      - user-example-logs:/usr/local/tomcat/logs
-
-volumes:
-  user-example-logs: {}
+  port:
+    image: ${PORT_IMAGE}
+    ports:
+      - 8081:80
+  stevedore:
+    image: ${STEVEDORE_IMAGE}
+    ports:
+      - 8082:80
+  shipping:
+    image: ${SHIPPING_IMAGE}
+    ports:
+      - 8083:80
