@@ -1,4 +1,4 @@
-name: Test release tag
+name: Update Deployment on Repository Dispatch
 on: 
     repository_dispatch:
         types: [deploy]
@@ -7,8 +7,8 @@ env:
   PERMITTED_REPOS: '["HARBOUR_IMAGE", "SHIPPING_IMAGE", "PORT_IMAGE", "STEVEDORE_IMAGE"]'
     
 jobs:
-    build-and-deploy:
-      name: Setup, Build and Publish
+    pull-and-deploy:
+      name: Pull and Deploy the latest image
       runs-on: ubuntu-latest
       steps:
       # checkout the repo
