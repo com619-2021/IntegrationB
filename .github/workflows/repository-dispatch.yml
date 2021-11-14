@@ -30,6 +30,7 @@ jobs:
           name: ${{ env.IMAGE_OWNER }}
           value: ${{ env.IMAGE_TAG }}
           token: ${{ secrets.REPO_TOKEN }}
+          org: true
       - name: "Upload docker-compose yaml to VM"
         uses: wlixcc/SFTP-Deploy-Action@v1.0
         with:
