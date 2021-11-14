@@ -2,6 +2,9 @@ name: Test release tag
 on: 
     repository_dispatch:
         types: [deploy]
+        
+env:
+  PERMITTED_REPOS: '["HARBOUR_IMAGE", "SHIPPING_IMAGE", "PORT_IMAGE", "STEVEDORE_IMAGE"]'
     
 jobs:
     build-and-deploy:
@@ -11,8 +14,22 @@ jobs:
       # checkout the repo
       - name: "Checkout"
         uses: actions/checkout@v2.4.0
-      - name: 'Show dispatch payload'
-        run: 'echo "payload: ${{ toJson(github.event.client_payload) }}"'
+      - name: 'Update ENV vars'
+        run: |
+            echo "IMAGE_OWNER=${{ github.event.client_payload.image_owner }}" >> $GITHUB_ENV
+            echo "IMAGE_TAG=${{ github.event.client_payload.image_tag }}" >> $GITHUB_ENV
+      - name: "Check payload is from permitted repo"
+        if: ${{ !contains(env.PERMITTED_REPOS, env.IMAGE_OWNER) }}
+        uses: actions/github-script@v5.0.0
+        with:
+            script: |
+                core.setFailed('Image owner set incorrectly.')
+      - name: Update Secret
+        uses: hmanzur/actions-set-secret@v2.0.0
+        with:
+          name: ${{ env.IMAGE_OWNER }}
+          value: ${{ env.IMAGE_TAG }}
+          token: ${{ secrets.REPO_TOKEN }}
       - name: "Upload docker-compose yaml to VM"
         uses: wlixcc/SFTP-Deploy-Action@v1.0
         with:
@@ -40,6 +57,10 @@ jobs:
           port: 22
           script: |            
             docker stop $(docker ps -a -q)
-            HARBOUR_CONTAINER=${{ github.event.client_payload.image }} docker-compose -f /etc/devops/docker-compose/docker-compose.yml up -d
+            HARBOUR_IMAGE=${{ secrets.HARBOUR_IMAGE }} \
+            PORT_IMAGE=${{ secrets.PORT_IMAGE }} \
+            SHIPPING_IMAGE=${{ secrets.SHIPPING_IMAGE }} \
+            STEVEDORE_IMAGE=${{ secrets.STEVEDORE_IMAGE }} \
+            docker-compose -f --remove-orphans /etc/devops/docker-compose/docker-compose.yml up -d
 
 
