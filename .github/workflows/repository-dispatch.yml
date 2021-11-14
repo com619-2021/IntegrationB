@@ -60,6 +60,6 @@ jobs:
           port: 22
           script: |            
             docker stop $(docker ps -a -q)
-            HARBOUR_IMAGE=${{ secrets.HARBOUR_IMAGE }} PORT_IMAGE=${{ secrets.PORT_IMAGE }} SHIPPING_IMAGE=${{ secrets.SHIPPING_IMAGE }} STEVEDORE_IMAGE=${{ secrets.STEVEDORE_IMAGE }} docker-compose --remove-orphans -f /etc/devops/docker-compose/docker-compose.yml up -d
+            HARBOUR_IMAGE=${{ secrets.HARBOUR_IMAGE }} PORT_IMAGE=${{ secrets.PORT_IMAGE }} SHIPPING_IMAGE=${{ secrets.SHIPPING_IMAGE }} STEVEDORE_IMAGE=${{ secrets.STEVEDORE_IMAGE }} docker-compose -f /etc/devops/docker-compose/docker-compose.yml up --remove-orphans -d
 
 
