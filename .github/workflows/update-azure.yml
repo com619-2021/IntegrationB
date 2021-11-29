@@ -9,6 +9,8 @@ jobs:
       name: Deploy the latest image
       runs-on: ubuntu-latest
       steps:
+      - name: "Checkout"
+        uses: actions/checkout@v2.4.0
       - name: "Upload docker-compose yaml to VM"
         uses: wlixcc/SFTP-Deploy-Action@v1.0
         with:
