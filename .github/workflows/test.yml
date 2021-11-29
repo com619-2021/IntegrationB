@@ -23,13 +23,13 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
-        if: ${{secrets.HARBOUR_IMAGE}} == ghcr.io/com619-2021/harbourmasterb:v0.0.5
+        if: ${{ secrets.HARBOUR_IMAGE == ghcr.io/com619-2021/harbourmasterb:v0.0.5 }}
         uses: actions/github-script@v5.0.0
         with:
           script: |
               core.setFailed('Image old.')
       - name: Test
-        if: ${{secrets.HARBOUR_IMAGE}} == ghcr.io/com619-2021/harbourmasterb:v0.0.8
+        if: ${{ secrets.HARBOUR_IMAGE == ghcr.io/com619-2021/harbourmasterb:v0.0.8 }}
         uses: actions/github-script@v5.0.0
         with:
           script: |
