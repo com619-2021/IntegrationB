@@ -1,5 +1,13 @@
 version: "3.9"
 services:
+  nginx:
+    image: nginx:latest
+    container_name: production_nginx
+    volumes:
+      - ./nginx.conf:/etc/devops/nginx/nginx.conf
+    ports:
+      - 80:80
+      - 443:443
   harbour:
     image: ${HARBOUR_IMAGE}
     ports:
@@ -16,3 +24,4 @@ services:
     image: ${SHIPPING_IMAGE}
     ports:
       - 8083:80
+
