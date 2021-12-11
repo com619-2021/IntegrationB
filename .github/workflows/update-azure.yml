@@ -26,8 +26,8 @@ jobs:
           username: '${{ secrets.AZURE_VM_USER }}'
           server: '${{ secrets.AZURE_VM_HOST }}'
           ssh_private_key: '${{ secrets.AZURE_VM_KEY }}'
-          local_path: './config/'
-          remote_path: '/etc/devops/config'
+          local_path: './config/*'
+          remote_path: '/etc/devops/config/'
       - name: "Run Compose on Azure"
         uses: appleboy/ssh-action@master
         with:
