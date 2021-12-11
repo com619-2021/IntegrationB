@@ -11,18 +11,20 @@ services:
       - 443:443
   harbour:
     image: ${HARBOUR_IMAGE}
-    ports:
-      - 8080:8080
+    expose:
+      - "8080"
   port:
     image: ${PORT_IMAGE}
-    ports:
-      - 8081:8082
+    expose:
+      - "8082"
   stevedore:
     image: ${STEVEDORE_IMAGE}
-    ports:
-      - 8082:80
+    expose:
+      - "8080"
   shipping:
     image: ${SHIPPING_IMAGE}
-    ports:
-      - 8083:80
+    expose:
+      - "8080"
+    volumes:
+      - /etc/devops/config/shipping/URL_config.json:/home/data/URL_config.json
 
