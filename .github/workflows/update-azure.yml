@@ -2,6 +2,7 @@ name: Second Part of Deploying Latest Images
 on: 
     repository_dispatch:
         types: [update]
+    workflow_dispatch:
         
     
 jobs:
@@ -19,16 +20,14 @@ jobs:
           ssh_private_key: '${{ secrets.AZURE_VM_KEY }}'
           local_path: './docker-compose/docker-compose.yml'
           remote_path: '/etc/devops/docker-compose/docker-compose.yml'
-      #- name: "Update nginx.conf"
-      #  uses: appleboy/ssh-action@master
-      #  with:
-      #    host: ${{ secrets.AZURE_VM_HOST }}
-      #    username: ${{ secrets.AZURE_VM_USER }}
-      #    key: ${{ secrets.AZURE_VM_KEY }}
-      #    port: 22
-      #    script: |
-      #      cd /etc/devops/nginx-gen/
-      #      python3 main.py --compose /etc/devops/docker-compose/docker-compose.yml --nginx /etc/devops/nginx/template-nginx.conf --out /etc/devops/nginx/nginx.conf --deny nginx
+      - name: "Upload docker-compose yaml to VM"
+        uses: wlixcc/SFTP-Deploy-Action@v1.0
+        with:
+          username: '${{ secrets.AZURE_VM_USER }}'
+          server: '${{ secrets.AZURE_VM_HOST }}'
+          ssh_private_key: '${{ secrets.AZURE_VM_KEY }}'
+          local_path: './config/'
+          remote_path: '/etc/devops/config'
       - name: "Run Compose on Azure"
         uses: appleboy/ssh-action@master
         with:
