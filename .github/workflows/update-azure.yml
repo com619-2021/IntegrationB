@@ -20,7 +20,15 @@ jobs:
           ssh_private_key: '${{ secrets.AZURE_VM_KEY }}'
           local_path: './docker-compose/docker-compose.yml'
           remote_path: '/etc/devops/docker-compose/docker-compose.yml'
-      - name: "Upload docker-compose yaml to VM"
+      - name: "Upload NGINX config to VM"
+        uses: wlixcc/SFTP-Deploy-Action@v1.0
+        with:
+          username: '${{ secrets.AZURE_VM_USER }}'
+          server: '${{ secrets.AZURE_VM_HOST }}'
+          ssh_private_key: '${{ secrets.AZURE_VM_KEY }}'
+          local_path: './nginx/nginx.conf'
+          remote_path: '/etc/devops/nginx/nginx.conf'
+      - name: "Upload application configs to VM"
         uses: wlixcc/SFTP-Deploy-Action@v1.0
         with:
           username: '${{ secrets.AZURE_VM_USER }}'
